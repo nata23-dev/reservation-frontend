@@ -58,3 +58,41 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Design services around a single responsibility
 - Use the `providedIn: 'root'` option for singleton services
 - Use the `inject()` function instead of constructor injection
+
+## Package Structure
+
+Organize the application using a feature-based folder structure under `src/app/`:
+
+```
+src/app/
+├── core/                    # Singleton services, guards, interceptors
+│   ├── guards/
+│   ├── interceptors/
+│   └── services/
+├── shared/                  # Reusable UI components, pipes, directives
+│   ├── components/
+│   ├── directives/
+│   └── pipes/
+├── features/                # Feature modules (one folder per feature)
+│   ├── feature-name/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── feature-name.routes.ts
+│   └── ...
+├── layout/                  # Shell components (header, footer, sidebar)
+│   └── components/
+├── models/                  # Shared interfaces and types
+└── environments/            # Environment configuration (if applicable)
+```
+
+### Placement Rules
+
+| Element Type | Target Folder |
+|--------------|---------------|
+| App-wide singletons (auth, config) | `core/services/` |
+| HTTP interceptors, route guards | `core/interceptors/`, `core/guards/` |
+| Reusable UI (buttons, modals) | `shared/components/` |
+| Custom pipes and directives | `shared/pipes/`, `shared/directives/` |
+| Feature-specific logic | `features/<feature-name>/` |
+| Shell/layout components | `layout/components/` |
+| Interfaces and DTOs | `models/` |

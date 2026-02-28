@@ -1,0 +1,18 @@
+<div
+  class="toast"
+  [class.toast-error]="type() === 'error'"
+  [class.toast-success]="type() === 'success'"
+  [class.toast-info]="type() === 'info'"
+  role="alert"
+  [attr.aria-live]="type() === 'error' ? 'assertive' : 'polite'"
+>
+  <span class="toast-message">{{ message() }}</span>
+  <button
+    type="button"
+    class="toast-dismiss"
+    (click)="onDismiss()"
+    aria-label="Close notification"
+  >
+    ×
+  </button>
+</div>

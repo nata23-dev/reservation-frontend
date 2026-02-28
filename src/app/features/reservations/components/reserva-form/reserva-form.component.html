@@ -1,0 +1,85 @@
+<div class="reserva-form">
+  <h2>New Reservation</h2>
+
+  @if (errorMessage(); as msg) {
+    <div class="toast-container">
+      <app-toast [message]="msg" type="error" (dismiss)="errorMessage.set(null)" />
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nombreCliente">Customer name</label>
+      <input
+        id="nombreCliente"
+        type="text"
+        formControlName="nombreCliente"
+        placeholder="Enter customer name"
+        [attr.aria-invalid]="form.get('nombreCliente')?.invalid && form.get('nombreCliente')?.touched"
+        [attr.aria-describedby]="form.get('nombreCliente')?.invalid && form.get('nombreCliente')?.touched ? 'nombreCliente-error' : null"
+      />
+      @if (form.get('nombreCliente')?.invalid && form.get('nombreCliente')?.touched) {
+        <span id="nombreCliente-error" class="error-message">
+          @if (form.get('nombreCliente')?.errors?.['required']) {
+            Customer name is required.
+          } @else if (form.get('nombreCliente')?.errors?.['minlength']) {
+            Customer name must be at least 2 characters.
+          }
+        </span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="fecha">Date</label>
+      <input
+        id="fecha"
+        type="date"
+        formControlName="fecha"
+        [attr.aria-invalid]="form.get('fecha')?.invalid && form.get('fecha')?.touched"
+        [attr.aria-describedby]="form.get('fecha')?.invalid && form.get('fecha')?.touched ? 'fecha-error' : null"
+      />
+      @if (form.get('fecha')?.invalid && form.get('fecha')?.touched) {
+        <span id="fecha-error" class="error-message">Date is required.</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="hora">Time</label>
+      <input
+        id="hora"
+        type="time"
+        formControlName="hora"
+        [attr.aria-invalid]="form.get('hora')?.invalid && form.get('hora')?.touched"
+        [attr.aria-describedby]="form.get('hora')?.invalid && form.get('hora')?.touched ? 'hora-error' : null"
+      />
+      @if (form.get('hora')?.invalid && form.get('hora')?.touched) {
+        <span id="hora-error" class="error-message">Time is required.</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="servicio">Service</label>
+      <select
+        id="servicio"
+        formControlName="servicio"
+        [attr.aria-invalid]="form.get('servicio')?.invalid && form.get('servicio')?.touched"
+        [attr.aria-describedby]="form.get('servicio')?.invalid && form.get('servicio')?.touched ? 'servicio-error' : null"
+      >
+        <option value="" disabled>Select a service</option>
+        @for (serv of services; track serv) {
+          <option [value]="serv">{{ serv }}</option>
+        }
+      </select>
+      @if (form.get('servicio')?.invalid && form.get('servicio')?.touched) {
+        <span id="servicio-error" class="error-message">Service is required.</span>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'Saving...' : 'Create reservation' }}
+      </button>
+      <a routerLink="/reservations" class="cancel-link">Cancel</a>
+    </div>
+  </form>
+</div>
